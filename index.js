@@ -1,11 +1,9 @@
 import { createStore } from 'redux'
 
 //REDUCER
-function counter(currentState, action) {
-  if (typeof state === 'undefined') {
-  return {count: 0}
-  }
-  var nextState = {
+function counter(state={ count: 0 }, action) {
+
+  let nextState = {
     count: currentState.count
   }
   switch (action.type) {
@@ -48,20 +46,20 @@ function todosReducer(state, action) {
 }
 
 //STORE
-let store = createStore(todosReducer);
-let counterEl = document.getElementById('counter');
-let todosInput = document.getElementById('todos');
-let todolist = document.getElementById('todolist');
+const store = createStore(todosReducer);
+const counterEl = document.getElementById('counter');
+const todosInput = document.getElementById('todos');
+const todolist = document.getElementById('todolist');
 
 function render() {
-  let state = store.getState()
+  const state = store.getState()
   // counterEl.innerHTML = state.count.toString()
   renderList(state);
 }
 function renderList(state) {
   todolist.innerHTML = '';
   state.todos.map(function(todo, i) { 
-    var li = document.createElement('li');
+    let li = document.createElement('li');
     li.innerHTML = todo.toString()
     todolist.appendChild(li);
   });
@@ -71,31 +69,31 @@ store.subscribe(render)
 
 //ACTIONS
 document.getElementById('add')
-    .addEventListener('click', function(){
+    .addEventListener('click', () => {
       store.dispatch({ type: 'ADD' })
     })
 
 document.getElementById('minus')
-    .addEventListener('click', function(){
+    .addEventListener('click', () => {
       store.dispatch({ type: 'MINUS' })
     })
 
 document.getElementById('reset')
-    .addEventListener('click', function(){
+    .addEventListener('click', () => {
       store.dispatch({ type: 'RESET' })
     })
 
 document.getElementById('new')
-    .addEventListener('click', function(){
+    .addEventListener('click', () => {
       store.dispatch({ type: 'NEW', payload: todosInput.value })
     })
 
 document.getElementById('delete')
-    .addEventListener('click', function(){
+    .addEventListener('click', () => {
       store.dispatch({ type: 'DELETE' })
     })
 
 document.getElementById('deleteall')
-    .addEventListener('click', function(){
+    .addEventListener('click', () => {
       store.dispatch({ type: 'DELETEALL' })
     })
