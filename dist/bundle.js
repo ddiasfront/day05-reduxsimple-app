@@ -749,99 +749,39 @@ function compose() {
 
 var _redux = __webpack_require__(8);
 
-//REDUCER
-function counter(currentState, action) {
-  if (typeof state === 'undefined') {
-    return { count: 0 };
-  }
-  var nextState = {
-    count: currentState.count
-  };
-  switch (action.type) {
-    case 'ADD':
-      nextState.count = currentState.count + 1;
-      return nextState;
-    case 'MINUS':
-      nextState.count = currentState.count - 1;
-      return nextState;
-    case 'RESET':
-      nextState.count = 0;
-      return nextState;
-      break;
-    default:
-      return currentState;
-  }
-}
-//TOD-O REDUCER
-function todosReducer(state, action) {
-  if (typeof state === 'undefined') {
-    return { todos: [] };
-  }
-
-  var nextState = Object.assign({}, state);
+//CRIANDO ACOES
+//RECEBE STATE INICIAL DE 0 NESSE CASO + A ACAO
+var counter = function counter() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var action = arguments[1];
 
   switch (action.type) {
-    case 'NEW':
-      nextState.todos.push(action.payload);
-      return nextState;
-    case 'DELETE':
-      nextState.todos.pop();
-      return nextState;
-    case 'DELETEALL':
-      nextState.todos = [];
-      return nextState;
-      break;
+    //TIPO DE ACAO INCREMENT
+    case 'INCREMENT':
+      return state + 1;
+    //TIPO DE ACAO DECREMENT
+    case 'DECREMENT':
+      return state - 1;
+    //RETORNO PADRAO
     default:
       return state;
   }
-}
+};
 
-//STORE
-var store = (0, _redux.createStore)(todosReducer);
-var counterEl = document.getElementById('counter');
-var todosInput = document.getElementById('todos');
-var todolist = document.getElementById('todolist');
-
-function render() {
-  var state = store.getState();
-  // counterEl.innerHTML = state.count.toString()
-  renderList(state);
-}
-function renderList(state) {
-  todolist.innerHTML = '';
-  state.todos.map(function (todo, i) {
-    var li = document.createElement('li');
-    li.innerHTML = todo.toString();
-    todolist.appendChild(li);
-  });
-}
-
-store.subscribe(render);
-
-//ACTIONS
-document.getElementById('add').addEventListener('click', function () {
-  store.dispatch({ type: 'ADD' });
+//CRIANDO STORE QUE FALA PRAGENTE QUANDO O STATE EH MODIFICADO
+//IMPORTANDO REDUX
+var store = (0, _redux.createStore)(counter);
+//A STORE TEM 3 METODOS
+//GETSTATE RETORNA O STATE ATUAL DA STORE ATUAL
+console.log(store.getState());
+//DISPATCH QUE PERMITE VOCE MUDAR O STATE DA SUA APLICACAO COM BASE NA ACAO JA DEFINIDAACIMA QUE MUDA O STATE LA EM CIMAO MESMO TA VENDO LA EMC IMA ENTAO ESSA ACAO LA
+//CHAMASE O STORE JUNTO AO DISPARTCH E O TIPO DE ACAO O DISPATCH VAI PEGAR A ACAO E O STATE ATUAL
+store.dispatch({ type: 'INCREMENT' });
+//SUBSCRIBE METODO QUE ESCUTA AS ALTERACOES NA STORE E PASSA PRO DOCUMENTO
+store.subscribe(function () {
+  document.body.innerHTML = store.getState();
 });
-
-document.getElementById('minus').addEventListener('click', function () {
-  store.dispatch({ type: 'MINUS' });
-});
-
-document.getElementById('reset').addEventListener('click', function () {
-  store.dispatch({ type: 'RESET' });
-});
-
-document.getElementById('new').addEventListener('click', function () {
-  store.dispatch({ type: 'NEW', payload: todosInput.value });
-});
-
-document.getElementById('delete').addEventListener('click', function () {
-  store.dispatch({ type: 'DELETE' });
-});
-
-document.getElementById('deleteall').addEventListener('click', function () {
-  store.dispatch({ type: 'DELETEALL' });
-});
+console.log(store.getState());
 
 /***/ }),
 /* 8 */
