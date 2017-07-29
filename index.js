@@ -1,5 +1,6 @@
 //IMPORTANDO REDUX
 import {createStore} from 'redux'
+import expect from 'expect'
 
 //CRIANDO ACOES
 //RECEBE STATE INICIAL DE 0 NESSE CASO + A ACAO
@@ -16,7 +17,6 @@ const counter = (state=0, action) => {
         return state;
     }
 }
-
 //CRIANDO STORE QUE FALA PRAGENTE QUANDO O STATE EH MODIFICADO
 const store = createStore(counter);
  //A STORE TEM 3 METODOS
@@ -30,3 +30,18 @@ const store = createStore(counter);
     document.body.innerHTML = store.getState();
   });
   console.log(store.getState());
+
+//AULA 9 
+const addCounter = (list) => {
+
+};
+
+const testAddCounter = () => {
+  const listBefore = [];
+  const listAfter = [0];
+  expect(
+    addCounter(listBefore)
+  ).toEqual(listAfter);
+};
+testAddCounter();
+console.log('tests passed');
